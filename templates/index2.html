@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forest Cover Type Prediction</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        form { display: flex; flex-direction: column; max-width: 500px; }
+        label { margin-top: 10px; font-weight: bold; }
+        input, select { padding: 5px; margin-top: 5px; }
+        button { margin-top: 20px; padding: 10px; background-color: green; color: white; border: none; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <h2>Forest Cover Type Prediction</h2>
+    
+    <form action="/predict" method="post">
+        <!-- Numerical Features -->
+        <label>Elevation:</label><input type="number" name="Elevation" required>
+        <label>Aspect:</label><input type="number" name="Aspect" required>
+        <label>Slope:</label><input type="number" name="Slope" required>
+        <label>Horizontal Distance To Hydrology:</label><input type="number" name="Horizontal_Distance_To_Hydrology" required>
+        <label>Vertical Distance To Hydrology:</label><input type="number" name="Vertical_Distance_To_Hydrology" required>
+        <label>Horizontal Distance To Roadways:</label><input type="number" name="Horizontal_Distance_To_Roadways" required>
+        <label>Hillshade 9am:</label><input type="number" name="Hillshade_9am" required>
+        <label>Hillshade Noon:</label><input type="number" name="Hillshade_Noon" required>
+        <label>Hillshade 3pm:</label><input type="number" name="Hillshade_3pm" required>
+        <label>Horizontal Distance To Fire Points:</label><input type="number" name="Horizontal_Distance_To_Fire_Points" required>
+
+        <!-- Wilderness Area (Dropdown) -->
+        <label>Wilderness Area:</label>
+        <select name="Wilderness_Area" required>
+            <option value="1">Wilderness Area 1</option>
+            <option value="2">Wilderness Area 2</option>
+            <option value="3">Wilderness Area 3</option>
+            <option value="4">Wilderness Area 4</option>
+        </select>
+
+        <!-- Soil Type (Checkboxes) -->
+        <label>Soil Types:</label>
+        <div style="display: grid; grid-template-columns: repeat(4, 1fr);">
+            {% for i in range(1, 41) %}
+                <div>
+                    <input type="checkbox" name="Soil_Type{{ i }}"> Soil Type {{ i }}
+                </div>
+            {% endfor %}
+        </div>
+
+        <button type="submit">Predict Cover Type</button>
+    </form>
+
+    {% if prediction is not none %}
+        <h3>Predicted Cover Type: {{ prediction }}</h3>
+    {% endif %}
+</body>
+</html>
